@@ -1,7 +1,6 @@
 import random
 import unittest
 import datetime
-import time
 
 from securesubmit.entities.payplan import *
 from securesubmit.infrastructure.enums import HpsPayPlanCustomerStatus
@@ -10,7 +9,7 @@ from securesubmit.tests.test_data import TestServicesConfig
 
 
 class PayPlanCustomerTests(unittest.TestCase):
-    service = HpsPayPlanService(TestServicesConfig.valid_pay_plan_config, enable_logging=True)
+    service = HpsPayPlanService(TestServicesConfig.valid_pay_plan_config)
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
     def get_customer_identifier(self):

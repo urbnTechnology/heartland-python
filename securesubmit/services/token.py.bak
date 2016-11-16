@@ -57,7 +57,7 @@ class HpsTokenService(object):
                 token = HpsToken.from_dict(jsonpickle.decode(response.content))
 
             return token
-        except Exception as e:
+        except Exception, e:
             raise HpsException(e.message)
 
     def get_token(self, card):

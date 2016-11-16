@@ -34,9 +34,9 @@ class RetailTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print 'batch id: {0}'.format(response.id)
-            print 'sequence number: {0}'.format(response.sequence_number)
-        except HpsException, e:
+            print('batch id: {0}'.format(response.id))
+            print('sequence number: {0}'.format(response.sequence_number))
+        except HpsException as e:
             if e.message != 'Transaction was rejected because it requires a batch to be open.':
                 self.fail(e.message)
 
@@ -752,7 +752,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual(u'40.00', response.authorized_amount)
+        self.assertEqual('40.00', response.authorized_amount)
 
     def test_040_charge_visa_swipe_partial_approval(self):
         track_data = HpsTrackData()
@@ -765,7 +765,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual(u'110.00', response.authorized_amount)
+        self.assertEqual('110.00', response.authorized_amount)
 
     def test_041_charge_mastercard_manual_partial_approval(self):
         card_holder = HpsCardHolder()
@@ -785,7 +785,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual(u'65.00', response.authorized_amount)
+        self.assertEqual('65.00', response.authorized_amount)
 
     def test_042_charge_discover_swipe_partial_approval(self):
         track_data = HpsTrackData()
@@ -798,7 +798,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual(u'100.00', response.authorized_amount)
+        self.assertEqual('100.00', response.authorized_amount)
 
         reversal_response = self.service.reverse(100.00).with_transaction_id(response.transaction_id).execute()
         self.assertIsNotNone(reversal_response)
@@ -1253,7 +1253,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual(u'22.00', response.authorized_amount)
+        self.assertEqual('22.00', response.authorized_amount)
 
     def test_069_debit_sale_visa_partial_approval(self):
         track_data = HpsTrackData()
@@ -1269,7 +1269,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual(u'33.00', response.authorized_amount)
+        self.assertEqual('33.00', response.authorized_amount)
 
         reversal_response = self.debit_service.reverse(33.00).with_transaction_id(response.transaction_id).execute()
         self.assertIsNotNone(reversal_response)
@@ -1298,6 +1298,97 @@ class RetailTests(unittest.TestCase):
 
     def test_072_debit_reversal_visa(self):
         pass  # See test 69
+
+    """ ONE Card - GSB CARD FUNCTIONS """
+
+    """ Balance Inquiry """
+
+    def test_073_balance_inquiry_gsb_swipe(self):
+        track_data = HpsTrackData()
+        track_data.value = '%B6277220572999800^   /                         ^49121010557010000016000000?F;6277220572999800=49121010557010000016?'
+        track_data.method = 'swipe'
+        
+        response = self.service.prepaid_balance_inquiry().with_track_data(track_data).execute()
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    def test_074_balance_inquiry_gsb_manual(self):
+        card = HpsCreditCard()
+        card.number = '6277220572999800'
+        card.exp_month = 12
+        card.exp_year = 2049
+
+        response = self.service.prepaid_balance_inquiry()\
+            .with_card(card)\
+            .with_card_present(True)\
+            .execute()
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    """ Add Value (LOAD) """
+
+    def test_075_add_value_gsb_swipe(self):
+        track_data = HpsTrackData()
+        track_data.value = '%B6277220572999800^   /                         ^49121010557010000016000000?F;6277220572999800=49121010557010000016?'
+        track_data.method = 'swipe'
+        
+        response = self.service.prepaid_add_value(5.00).with_track_data(track_data).execute()
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    def test_076_add_value_gsb_manual(self):
+        card = HpsCreditCard()
+        card.number = '6277220572999800'
+        card.exp_month = 12
+        card.exp_year = 2049
+
+        response = self.service.prepaid_add_value(5.00)\
+            .with_card(card)\
+            .with_card_present(True)\
+            .with_allow_duplicates(True)\
+            .execute()
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    """ Sale """
+
+    def test_077_charge_gsb_swipe_reversal(self):
+        track_data = HpsTrackData()
+        track_data.value = '%B6277220572999800^   /                         ^49121010557010000016000000?F;6277220572999800=49121010557010000016?'
+        track_data.method = 'swipe'
+        
+        response = self.service.charge(2.05).with_track_data(track_data).execute()
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+        reversal_response = self.service.reverse(2.05).with_transaction_id(response.transaction_id).execute()
+        self.assertIsNotNone(reversal_response)
+        self.assertEqual('00', reversal_response.response_code)
+
+    def test_078_charge_gsb_swipe(self):
+        track_data = HpsTrackData()
+        track_data.value = '%B6277220572999800^   /                         ^49121010557010000016000000?F;6277220572999800=49121010557010000016?'
+        track_data.method = 'swipe'
+        
+        response = self.service.charge(2.10).with_track_data(track_data).execute()
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    def test_079_charge_gsb_swipe_partial_reversal(self):
+        track_data = HpsTrackData()
+        track_data.value = '%B6277220572999800^   /                         ^49121010557010000016000000?F;6277220572999800=49121010557010000016?'
+        track_data.method = 'swipe'
+        
+        response = self.service.charge(2.15).with_track_data(track_data).execute()
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+        reversal_response = self.service.reverse(2.15)\
+            .with_auth_amount(1.15)\
+            .with_transaction_id(response.transaction_id)\
+            .execute()
+        self.assertIsNotNone(reversal_response)
+        self.assertEqual('00', reversal_response.response_code)
 
     """ EBT FUNCTIONS """
 
@@ -1601,7 +1692,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'10.00', response.balance_amount)
+        self.assertEqual('10.00', response.balance_amount)
 
     def test_100_balance_inquiry_gift_2_manual(self):
         card = HpsGiftCard()
@@ -1613,7 +1704,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'10.00', response.balance_amount)
+        self.assertEqual('10.00', response.balance_amount)
 
     """ REPLACE / TRANSFER """
 
@@ -1739,7 +1830,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'0', response.points_balance_amount)
+        self.assertEqual('0', response.points_balance_amount)
 
     def test_112_balance_inquiry_rewards_2(self):
         card = HpsGiftCard()
@@ -1751,7 +1842,7 @@ class RetailTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'0', response.points_balance_amount)
+        self.assertEqual('0', response.points_balance_amount)
 
     """ ALIAS """
 
@@ -1932,7 +2023,7 @@ class RetailTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print 'batch id: {0}'.format(response.id)
-            print 'sequence number: {0}'.format(response.sequence_number)
-        except HpsException, e:
+            print('batch id: {0}'.format(response.id))
+            print('sequence number: {0}'.format(response.sequence_number))
+        except HpsException as e:
             self.fail(e.message)

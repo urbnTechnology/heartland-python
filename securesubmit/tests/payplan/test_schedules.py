@@ -14,7 +14,8 @@ class PayPlanScheduleTests(unittest.TestCase):
     service = HpsPayPlanService(TestServicesConfig.valid_pay_plan_config, True)
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
     payment_method = service.page(1, 0).find_all_payment_methods(
-        {'customerIdentifier': 'SecureSubmit', 'paymentStatus': 'Active'}
+        {'customerIdentifier': 'SecureSubmit',
+         'paymentStatus': HpsPayPlanPaymentMethodStatus.ACTIVE}
     ).results[0]
 
     def get_schedule_identifier(self):
@@ -53,7 +54,7 @@ class PayPlanScheduleTests(unittest.TestCase):
         schedule_status = HpsPayPlanScheduleStatus.ACTIVE
         if schedule.schedule_status == HpsPayPlanScheduleStatus.ACTIVE:
             schedule_status = HpsPayPlanScheduleStatus.INACTIVE
-        schedule.schedule_status = str(schedule_status)
+        schedule.schedule_status = schedule_status
         schedule.start_date = None
 
         response = self.service.edit_schedule(schedule)

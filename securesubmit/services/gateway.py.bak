@@ -7,8 +7,8 @@
 """
 import base64
 import requests
-import urllib.request, urllib.error, urllib.parse
-import urllib.request, urllib.parse, urllib.error
+import urllib2
+import urllib
 import xml.etree.cElementTree as Et
 import itertools
 
@@ -136,15 +136,15 @@ class HpsSoapGatewayService(object):
 
             xml = Et.tostring(envelope).encode('utf-8')
             if self._logging:
-                print('URL: ' + self._url)
-                print('Request: ' + xml)
+                print 'URL: ' + self._url
+                print 'Request: ' + xml
 
             request_headers = {'Content-type': 'text/xml; charset=UTF-8',
                                'Content-length': str(len(xml))}
-            request = urllib.request.Request(self._url, xml, request_headers)
-            raw_response = urllib.request.urlopen(request).read()
+            request = urllib2.Request(self._url, xml, request_headers)
+            raw_response = urllib2.urlopen(request).read()
             if self._logging:
-                print('Response: ' + raw_response)
+                print 'Response: ' + raw_response
 
             namespaces = {"http://Hps.Exchange.PosGateway": None,
                           "http://schemas.xmlsoap.org/soap/envelope/": None}
@@ -157,7 +157,7 @@ class HpsSoapGatewayService(object):
                 return response['Envelope']['Body']['PosResponse']
             else:
                 raise HpsException("Unexpected response")
-        except Exception as e:
+        except Exception, e:
             # traceback.print_exc()
             raise HpsGatewayException(
                 HpsExceptionCodes.unknown_gateway_error,
@@ -454,7 +454,7 @@ class HpsSoapGatewayService(object):
         rts.text = 'Y' if auto_substantiation.real_time_substantiation else 'N'
 
         amount_count = ['First', 'Second', 'Third', 'Fourth']
-        for k, v in dict(itertools.zip_longest(amount_count, auto_substantiation.additional_amounts)):
+        for k, v in dict(itertools.izip_longest(amount_count, auto_substantiation.additional_amounts)):
             if v is not None:
                 amt_element = Et.SubElement(auto_element, '{0}AdditionalAmtInfo'.format(k))
                 Et.SubElement(amt_element, 'AmtType').text = v.amount_type
@@ -508,7 +508,7 @@ class HpsRestGatewayService(object):
         if data is not None:
             encoded_data = jsonpickle.encode(data, False, False, True)
             if self._logging:
-                print('Request: ' + encoded_data)
+                print 'Request: ' + encoded_data
 
             response = request_method(
                 url,
@@ -519,11 +519,11 @@ class HpsRestGatewayService(object):
             )
         else:
             if self._logging:
-                print('Request: ' + url)
+                print 'Request: ' + url
             response = request_method(url, headers=headers, auth=basic_auth)
 
         if self._logging:
-            print('Response: ' + response.content)
+            print 'Response: ' + response.content
 
         if response.status_code == 200 or response.status_code == 204:
             return response.content
@@ -794,7 +794,7 @@ class HpsCreditService(HpsSoapGatewayService):
             card_data_element = Et.SubElement(block1, 'CardData')
             card_data_element.append(
                 _hydrate_card_manual_entry(card_data))
-        elif isinstance(card_data, str):
+        elif isinstance(card_data, (basestring, str)):
             card_data_element = Et.SubElement(block1, 'CardData')
             token_data = Et.SubElement(card_data_element, 'TokenData')
             Et.SubElement(token_data, 'TokenValue').text = card_data
@@ -822,7 +822,7 @@ class HpsCreditService(HpsSoapGatewayService):
             card_data_element = Et.SubElement(block1, 'CardData')
             card_data_element.append(
                 _hydrate_card_manual_entry(card_data))
-        elif isinstance(card_data, str):
+        elif isinstance(card_data, (basestring, str)):
             card_data_element = Et.SubElement(block1, 'CardData')
             token_data = Et.SubElement(card_data_element, 'TokenData')
             Et.SubElement(token_data, 'TokenValue').text = card_data
@@ -983,7 +983,7 @@ class HpsCreditService(HpsSoapGatewayService):
                 if response_code == '91':
                     try:
                         self.reverse(int(transaction_id), *args)
-                    except HpsGatewayException as e:
+                    except HpsGatewayException, e:
                         if e.details.gateway_response_code == '3':
                             HpsIssuerResponseValidation.check_response(
                                 transaction_id,
@@ -995,7 +995,7 @@ class HpsCreditService(HpsSoapGatewayService):
                             ('Error occurred while reversing ',
                              'a charge due to HPS issuer time-out.'),
                             e)
-                    except Exception as e:
+                    except Exception, e:
                         raise HpsCreditException(
                             transaction_id,
                             HpsExceptionCodes.issuer_timeout_reversal_error,
@@ -1014,7 +1014,7 @@ class HpsCreditService(HpsSoapGatewayService):
                 self.reverse(
                     response['Header']['GatewayTxnId'],
                     *args)
-            except Exception as e:
+            except Exception, e:
                 raise HpsGatewayException(
                     HpsExceptionCodes.gateway_timeout_reversal_error,
                     ('Error occurred while reversing ',
@@ -1463,7 +1463,7 @@ class HpsActivationService(HpsRestGatewayService):
             'merchantId': merchant_id,
             'activationCode': activation_code
         }
-        response = self.do_request('GET', 'deviceActivationKey?' + urllib.parse.urlencode(args))
+        response = self.do_request('GET', 'deviceActivationKey?' + urllib.urlencode(args))
         return self.hydrate_response(DeviceActivationKeyResponse, response)
 
 

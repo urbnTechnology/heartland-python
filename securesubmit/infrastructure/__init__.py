@@ -6,7 +6,7 @@
     :copyright: (c) Heartland Payment Systems. All rights reserved.
 """
 
-from ConfigParser import ConfigParser, NoOptionError
+from configparser import ConfigParser, NoOptionError
 
 
 class HpsException(Exception):

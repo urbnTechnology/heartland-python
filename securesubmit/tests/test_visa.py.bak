@@ -38,9 +38,9 @@ class VisaTests(unittest.TestCase):
 
         transaction = self.charge_service.get(charge.transaction_id)
         self.assertIsNotNone(transaction)
-        self.assertEqual(transaction.memo, 'memo')
-        self.assertEqual(transaction.invoice_number, '1234')
-        self.assertEqual(transaction.customer_id, 'customerID')
+        self.assertEquals(transaction.memo, 'memo')
+        self.assertEquals(transaction.invoice_number, '1234')
+        self.assertEquals(transaction.customer_id, 'customerID')
 
     # AVS Tests
     def test_visa_avs_response_b(self):
@@ -101,7 +101,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_refer_card_issuer(self):
         try:
             self._charge_valid_visa(10.34)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -110,7 +110,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_invalid_merchant(self):
         try:
             self._charge_valid_visa(10.22)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -119,7 +119,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_pickup_card(self):
         try:
             self._charge_valid_visa(10.04)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -128,7 +128,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_do_not_honor(self):
         try:
             self._charge_valid_visa(10.25)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -137,7 +137,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_invalid_transaction(self):
         try:
             self._charge_valid_visa(10.26)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -146,7 +146,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_invalid_amount(self):
         try:
             self._charge_valid_visa(10.27)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.invalid_amount, e.code)
             return
 
@@ -155,7 +155,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_invalid_card(self):
         try:
             self._charge_valid_visa(10.28)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.incorrect_number, e.code)
             return
 
@@ -164,7 +164,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_invalid_issuer(self):
         try:
             self._charge_valid_visa(10.18)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -173,7 +173,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_system_error_reenter(self):
         try:
             self._charge_valid_visa(10.29)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -182,7 +182,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_lost_card(self):
         try:
             self._charge_valid_visa(10.31)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -191,7 +191,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_hot_card_pickup(self):
         try:
             self._charge_valid_visa(10.03)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -200,7 +200,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_insufficient_funds(self):
         try:
             self._charge_valid_visa(10.08)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -209,7 +209,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_no_check_amount(self):
         try:
             self._charge_valid_visa(10.16)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -218,7 +218,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_no_savings_account(self):
         try:
             self._charge_valid_visa(10.17)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -227,7 +227,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_expired_card(self):
         try:
             self._charge_valid_visa(10.32)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.expired_card, e.code)
             return
 
@@ -236,7 +236,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_txn_not_permitted(self):
         try:
             self._charge_valid_visa(10.30)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -245,7 +245,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_invalid_aquirer(self):
         try:
             self._charge_valid_visa(10.30)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -254,7 +254,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_exceeds_limit(self):
         try:
             self._charge_valid_visa(10.09)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -263,7 +263,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_restricted_card(self):
         try:
             self._charge_valid_visa(10.10)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -272,7 +272,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_security_violation(self):
         try:
             self._charge_valid_visa(10.11)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -281,7 +281,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_check_digit_err(self):
         try:
             self._charge_valid_visa(10.05)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.incorrect_cvc, e.code)
             return
 
@@ -290,7 +290,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_system_error(self):
         try:
             self._charge_valid_visa(10.21)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -299,7 +299,7 @@ class VisaTests(unittest.TestCase):
     def test_visa_response_cvv2_mismatch(self):
         try:
             self._charge_valid_visa(10.23)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.incorrect_cvc, e.code)
             return
 
@@ -362,8 +362,8 @@ class VisaTests(unittest.TestCase):
             TestCardHolder.valid_card_holder,
             cpc_req=True
         )
-        self.assertEqual('00', charge_response.response_code)
-        self.assertEqual('B', charge_response.cpc_indicator)
+        self.assertEquals('00', charge_response.response_code)
+        self.assertEquals('B', charge_response.cpc_indicator)
 
         cpc_data = HpsCPCData()
         cpc_data.card_holder_po_number = '123456789'
@@ -371,7 +371,7 @@ class VisaTests(unittest.TestCase):
         cpc_data.tax_amount = '15'
 
         edit_response = self.charge_service.cpc_edit(charge_response.transaction_id, cpc_data)
-        self.assertEqual('00', edit_response.response_code)
+        self.assertEquals('00', edit_response.response_code)
 
     def test_visa_charge_cpc_req_should_return_corporate(self):
         """
@@ -383,8 +383,8 @@ class VisaTests(unittest.TestCase):
             TestCardHolder.valid_card_holder,
             cpc_req=True
         )
-        self.assertEqual('00', charge_response.response_code)
-        self.assertEqual('R', charge_response.cpc_indicator)
+        self.assertEquals('00', charge_response.response_code)
+        self.assertEquals('R', charge_response.cpc_indicator)
 
         cpc_data = HpsCPCData()
         cpc_data.card_holder_po_number = '123456789'
@@ -392,7 +392,7 @@ class VisaTests(unittest.TestCase):
         cpc_data.tax_amount = '15'
 
         edit_response = self.charge_service.cpc_edit(charge_response.transaction_id, cpc_data)
-        self.assertEqual('00', edit_response.response_code)
+        self.assertEquals('00', edit_response.response_code)
 
     def test_visa_charge_cpc_req_should_return_purchasing(self):
         """
@@ -404,8 +404,8 @@ class VisaTests(unittest.TestCase):
             TestCardHolder.valid_card_holder,
             cpc_req=True
         )
-        self.assertEqual('00', charge_response.response_code)
-        self.assertEqual('S', charge_response.cpc_indicator)
+        self.assertEquals('00', charge_response.response_code)
+        self.assertEquals('S', charge_response.cpc_indicator)
 
         cpc_data = HpsCPCData()
         cpc_data.card_holder_po_number = '123456789'
@@ -413,7 +413,7 @@ class VisaTests(unittest.TestCase):
         cpc_data.tax_amount = '15'
 
         edit_response = self.charge_service.cpc_edit(charge_response.transaction_id, cpc_data)
-        self.assertEqual('00', edit_response.response_code)
+        self.assertEquals('00', edit_response.response_code)
 
     def test_visa_auth_cpc_req_should_return_business(self):
         """
@@ -425,8 +425,8 @@ class VisaTests(unittest.TestCase):
             TestCardHolder.valid_card_holder,
             cpc_req=True
         )
-        self.assertEqual('00', charge_response.response_code)
-        self.assertEqual('B', charge_response.cpc_indicator)
+        self.assertEquals('00', charge_response.response_code)
+        self.assertEquals('B', charge_response.cpc_indicator)
 
         cpc_data = HpsCPCData()
         cpc_data.card_holder_po_number = '123456789'
@@ -434,7 +434,7 @@ class VisaTests(unittest.TestCase):
         cpc_data.tax_amount = '15'
 
         edit_response = self.charge_service.cpc_edit(charge_response.transaction_id, cpc_data)
-        self.assertEqual('00', edit_response.response_code)
+        self.assertEquals('00', edit_response.response_code)
 
     def test_visa_auth_cpc_req_should_return_corporate(self):
         """
@@ -446,8 +446,8 @@ class VisaTests(unittest.TestCase):
             TestCardHolder.valid_card_holder,
             cpc_req=True
         )
-        self.assertEqual('00', charge_response.response_code)
-        self.assertEqual('R', charge_response.cpc_indicator)
+        self.assertEquals('00', charge_response.response_code)
+        self.assertEquals('R', charge_response.cpc_indicator)
 
         cpc_data = HpsCPCData()
         cpc_data.card_holder_po_number = '123456789'
@@ -455,7 +455,7 @@ class VisaTests(unittest.TestCase):
         cpc_data.tax_amount = '15'
 
         edit_response = self.charge_service.cpc_edit(charge_response.transaction_id, cpc_data)
-        self.assertEqual('00', edit_response.response_code)
+        self.assertEquals('00', edit_response.response_code)
 
     def test_visa_auth_cpc_req_should_return_purchasing(self):
         """
@@ -467,8 +467,8 @@ class VisaTests(unittest.TestCase):
             TestCardHolder.valid_card_holder,
             cpc_req=True
         )
-        self.assertEqual('00', charge_response.response_code)
-        self.assertEqual('S', charge_response.cpc_indicator)
+        self.assertEquals('00', charge_response.response_code)
+        self.assertEquals('S', charge_response.cpc_indicator)
 
         cpc_data = HpsCPCData()
         cpc_data.card_holder_po_number = '123456789'
@@ -476,7 +476,7 @@ class VisaTests(unittest.TestCase):
         cpc_data.tax_amount = '15'
 
         edit_response = self.charge_service.cpc_edit(charge_response.transaction_id, cpc_data)
-        self.assertEqual('00', edit_response.response_code)
+        self.assertEquals('00', edit_response.response_code)
 
     # Helper Methods
     def _charge_valid_visa(self, amount):

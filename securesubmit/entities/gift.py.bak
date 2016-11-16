@@ -46,7 +46,7 @@ class HpsGiftCardActivate(HpsTransaction):
 
     @classmethod
     def from_dict(cls, rsp):
-        activation_rsp = next(iter(rsp['Transaction'].values()))
+        activation_rsp = rsp['Transaction'].itervalues().next()
 
         activation = cls()
         activation.transaction_id = rsp['Header']['GatewayTxnId']
@@ -85,7 +85,7 @@ class HpsGiftCardAlias(HpsTransaction):
 
     @classmethod
     def from_dict(cls, rsp):
-        item = next(iter(rsp['Transaction'].values()))
+        item = rsp['Transaction'].itervalues().next()
 
         alias = cls()
         alias.transaction_id = rsp['Header']['GatewayTxnId']
@@ -122,7 +122,7 @@ class HpsGiftCardSale(HpsGiftCardActivate):
 
     @classmethod
     def from_dict(cls, rsp):
-        item = next(iter(rsp['Transaction'].values()))
+        item = rsp['Transaction'].itervalues().next()
 
         sale = super(HpsGiftCardSale, cls).from_dict(rsp)
         sale.split_tender_card_amount = None

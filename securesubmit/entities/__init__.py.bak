@@ -62,7 +62,7 @@ class HpsTransaction(object):
 
         # hydrate the body
         if 'Transaction' in rsp:
-            item = next(iter(rsp['Transaction'].values()))
+            item = rsp['Transaction'].itervalues().next()
             if item is not None:
                 if 'RspCode' in item:
                     transaction.response_code = item['RspCode']
@@ -91,7 +91,7 @@ class HpsTransaction(object):
                    HpsTransactionType.Void: "CreditVoid",
                    HpsTransactionType.BatchClose: "BatchClose",
                    HpsTransactionType.SecurityError: "SecurityError"}
-        if transaction_type in options.keys():
+        if transaction_type in options.viewkeys():
             return options[transaction_type]
         else:
             return ""
@@ -109,7 +109,7 @@ class HpsTransaction(object):
                    "CreditVoid": HpsTransactionType.Void,
                    "BatchClose": HpsTransactionType.BatchClose,
                    "SecurityError": HpsTransactionType.SecurityError}
-        if service_name in options.keys():
+        if service_name in options.viewkeys():
             return options[service_name]
         else:
             return None

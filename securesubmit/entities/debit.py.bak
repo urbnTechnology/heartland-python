@@ -13,7 +13,7 @@ class HpsDebitAuthorization(HpsTransaction):
 
     @classmethod
     def from_dict(cls, rsp):
-        sale_response = next(iter(rsp['Transaction'].values()))
+        sale_response = rsp['Transaction'].itervalues().next()
 
         sale = super(HpsDebitAuthorization, cls).from_dict(rsp)
         if 'AuthCode' in sale_response:

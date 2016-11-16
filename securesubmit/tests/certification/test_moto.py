@@ -40,9 +40,9 @@ class MotoTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print 'batch id: {0}'.format(response.id)
-            print 'sequence number: {0}'.format(response.sequence_number)
-        except HpsException, e:
+            print('batch id: {0}'.format(response.id))
+            print('sequence number: {0}'.format(response.sequence_number))
+        except HpsException as e:
             if e.message != 'Transaction was rejected because it requires a batch to be open.':
                 self.fail(e.message)
 
@@ -480,7 +480,7 @@ class MotoTests(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
         self.assertIsNotNone(response.authorized_amount)
-        self.assertEqual(u'110.00', response.authorized_amount)
+        self.assertEqual('110.00', response.authorized_amount)
 
     def test_019_partial_approval_discover(self):
         card_holder = HpsCardHolder()
@@ -506,7 +506,7 @@ class MotoTests(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
         self.assertIsNotNone(response.authorized_amount)
-        self.assertEqual(u'65.00', response.authorized_amount)
+        self.assertEqual('65.00', response.authorized_amount)
 
     def test_020_partial_approval_master_card(self):
         card_holder = HpsCardHolder()
@@ -532,7 +532,7 @@ class MotoTests(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
         self.assertIsNotNone(response.authorized_amount)
-        self.assertEqual(u'100.00', response.authorized_amount)
+        self.assertEqual('100.00', response.authorized_amount)
         self.__class__.test_20_transaction_id = response.transaction_id
 
     """ LEVEL II CORPORATE PURCHASE CARD """
@@ -995,6 +995,97 @@ class MotoTests(unittest.TestCase):
             self.assertEqual('41', response.response_code)
             # self.assertEqual('FR', response.issuser_response_code)
 
+    """ ONE CARD - GSB CARD FUNCTIONS """
+
+    """ BALANCE INQUIRY """
+
+    def test_039_balance_inquiry_gsb(self):
+        card_holder = HpsCardHolder()
+        card_holder.address = HpsAddress()
+        card_holder.address.address = '6860'
+        card_holder.address.zip = '75024'
+
+        card = HpsCreditCard()
+        card.number = '6277220572999800'
+        card.exp_month = 12
+        card.exp_year = 2049
+
+        direct_market_data = HpsDirectMarketData('123456')
+
+        response = self.service.prepaid_balance_inquiry()\
+            .with_card(card)\
+            .with_card_holder(card_holder)\
+            .with_direct_market_data(direct_market_data)\
+            .execute()
+
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    """ ADD VALUE """
+
+    def test_040_add_value_gsb(self):
+        card = HpsTrackData()
+        card.value = '%B6277220572999800^   /                         ^49121010557010000016000000?F;6277220572999800=49121010557010000016?'
+
+        response = self.service.prepaid_add_value(15.00).with_track_data(card).execute()
+
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    """ SALE """
+
+    def test_041_charge_gsb(self):
+        card_holder = HpsCardHolder()
+        card_holder.address = HpsAddress()
+        card_holder.address.address = '6860'
+        card_holder.address.zip = '75024'
+
+        card = HpsCreditCard()
+        card.number = '6277220572999800'
+        card.exp_month = 12
+        card.exp_year = 2049
+
+        direct_market_data = HpsDirectMarketData('123456')
+
+        response = self.service.charge(2.05)\
+            .with_card(card)\
+            .with_card_holder(card_holder)\
+            .with_direct_market_data(direct_market_data)\
+            .execute()
+
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+        self.__class__.test_39_transaction_id = response.transaction_id
+
+    def test_042_charge_gsb(self):
+        card_holder = HpsCardHolder()
+        card_holder.address = HpsAddress()
+        card_holder.address.address = '6860'
+        card_holder.address.zip = '75024'
+
+        card = HpsCreditCard()
+        card.number = '6277220572999800'
+        card.exp_month = 12
+        card.exp_year = 2049
+
+        direct_market_data = HpsDirectMarketData('123456')
+
+        response = self.service.charge(2.10)\
+            .with_card(card)\
+            .with_card_holder(card_holder)\
+            .with_direct_market_data(direct_market_data)\
+            .execute()
+
+        self.assertIsNotNone(response)
+        self.assertEqual('00', response.response_code)
+
+    """ ONLINE VOID / REVERSAL """
+
+    def test_043_void_gsb(self):
+        void_response = self.service.void(self.__class__.test_39_transaction_id).execute()
+        self.assertIsNotNone(void_response)
+        self.assertEqual('00', void_response.response_code)
+
     """ HMS GIFT - REWARDS """
 
     """ GIFT """
@@ -1058,7 +1149,7 @@ class MotoTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'10.00', response.balance_amount)
+        self.assertEqual('10.00', response.balance_amount)
 
     def test_049_balance_inquiry_gift_2(self):
         card = HpsGiftCard()
@@ -1067,7 +1158,7 @@ class MotoTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'10.00', response.balance_amount)
+        self.assertEqual('10.00', response.balance_amount)
 
     """ REPLACE / TRANSFER """
 
@@ -1187,7 +1278,7 @@ class MotoTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'0', response.points_balance_amount)
+        self.assertEqual('0', response.points_balance_amount)
 
     def test_062_balance_inquiry_rewards_2(self):
         card = HpsGiftCard()
@@ -1196,7 +1287,7 @@ class MotoTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual(u'0', response.points_balance_amount)
+        self.assertEqual('0', response.points_balance_amount)
 
     """ ALIAS """
 
@@ -1373,7 +1464,7 @@ class MotoTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print 'batch id: {0}'.format(response.id)
-            print 'sequence number: {0}'.format(response.sequence_number)
-        except HpsException, e:
+            print('batch id: {0}'.format(response.id))
+            print('sequence number: {0}'.format(response.sequence_number))
+        except HpsException as e:
             self.fail(e.message)

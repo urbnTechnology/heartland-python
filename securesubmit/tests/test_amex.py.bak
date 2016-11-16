@@ -85,7 +85,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_denied(self):
         try:
             self._charge_valid_amex(10.08)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -94,7 +94,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_card_expired(self):
         try:
             self._charge_valid_amex(10.32)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.expired_card, e.code)
             return
 
@@ -103,7 +103,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_please_call(self):
         try:
             self._charge_valid_amex(10.34)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -112,7 +112,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_invalid_merchant(self):
         try:
             self._charge_valid_amex(10.22)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -121,7 +121,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_invalid_amount(self):
         try:
             self._charge_valid_amex(10.27)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.invalid_amount, e.code)
             return
 
@@ -130,7 +130,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_no_action_taken(self):
         try:
             self._charge_valid_amex(10.14)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.incorrect_number, e.code)
             return
 
@@ -139,7 +139,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_invalid_cvv2(self):
         try:
             self._charge_valid_amex(10.23)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.incorrect_cvc, e.code)
             return
 
@@ -148,7 +148,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_message_format_error(self):
         try:
             self._charge_valid_amex(10.06)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -157,7 +157,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_invalid_originator(self):
         try:
             self._charge_valid_amex(10.30)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -166,7 +166,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_card_declined(self):
         try:
             self._charge_valid_amex(10.25)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -175,7 +175,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_account_cancelled(self):
         try:
             self._charge_valid_amex(10.13)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -184,7 +184,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_merchant_close(self):
         try:
             self._charge_valid_amex(10.12)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -193,7 +193,7 @@ class AmexTests(unittest.TestCase):
     def test_amex_response_pickup_card(self):
         try:
             self._charge_valid_amex(10.04)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 

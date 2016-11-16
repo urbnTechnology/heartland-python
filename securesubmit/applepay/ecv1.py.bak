@@ -32,7 +32,7 @@ class PaymentData(object):
 
             self.payment_data = PaymentData3DS(cryptogram, eci_indicator)
             self.transaction_amount = int(jelement['transactionAmount']) / 100
-        except Exception as e:
+        except Exception, e:
             raise HpsException(e.message, e)
 
 
@@ -73,7 +73,7 @@ class PaymentToken(object):
             self.header = PaymentTokenHeader(public_key, hash, tran)
             self.signature = jelement['signature']
             self.version = jelement['version']
-        except Exception as e:
+        except Exception, e:
             raise HpsException(e.message, e)
 
 

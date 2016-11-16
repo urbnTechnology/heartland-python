@@ -36,9 +36,9 @@ class MasterCardTests(unittest.TestCase):
 
         transaction = self.charge_service.get(charge.transaction_id)
         self.assertIsNotNone(transaction)
-        self.assertEqual(transaction.memo, 'memo')
-        self.assertEqual(transaction.invoice_number, '1234')
-        self.assertEqual(transaction.customer_id, 'customerID')
+        self.assertEquals(transaction.memo, 'memo')
+        self.assertEquals(transaction.invoice_number, '1234')
+        self.assertEquals(transaction.customer_id, 'customerID')
 
     # AVS Tests
     def test_mastercard_avs_response_A(self):
@@ -98,7 +98,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_refer_card_issuer(self):
         try:
             response = self._charge_valid_mastercard(10.34)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -107,7 +107,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_term_id_error(self):
         try:
             response = self._charge_valid_mastercard(10.22)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -116,7 +116,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_invalid_merchant(self):
         try:
             response = self._charge_valid_mastercard(10.01)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -125,7 +125,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_do_not_honor(self):
         try:
             response = self._charge_valid_mastercard(10.25)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -134,7 +134,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_invalid_transaction(self):
         try:
             response = self._charge_valid_mastercard(10.26)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -143,7 +143,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_invalid_amount(self):
         try:
             response = self._charge_valid_mastercard(10.27)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.invalid_amount, e.code)
             return
 
@@ -152,7 +152,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_invalid_card(self):
         try:
             response = self._charge_valid_mastercard(10.28)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.incorrect_number, e.code)
             return
 
@@ -161,7 +161,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_invalid_issuer(self):
         try:
             response = self._charge_valid_mastercard(10.18)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -170,7 +170,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_lost_card(self):
         try:
             response = self._charge_valid_mastercard(10.31)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -179,7 +179,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_hold_call(self):
         try:
             response = self._charge_valid_mastercard(10.03)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -188,7 +188,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_decline(self):
         try:
             response = self._charge_valid_mastercard(10.08)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -197,7 +197,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_expired_card(self):
         try:
             response = self._charge_valid_mastercard(10.32)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.expired_card, e.code)
             return
 
@@ -206,7 +206,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_exceeds_limit(self):
         try:
             response = self._charge_valid_mastercard(10.09)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -215,7 +215,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_restricted_card(self):
         try:
             response = self._charge_valid_mastercard(10.10)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -224,7 +224,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_security_violation(self):
         try:
             response = self._charge_valid_mastercard(10.19)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -233,7 +233,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_exceeds_freq_limit(self):
         try:
             response = self._charge_valid_mastercard(10.11)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.card_declined, e.code)
             return
 
@@ -242,7 +242,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_card_no_error(self):
         try:
             response = self._charge_valid_mastercard(10.14)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.incorrect_number, e.code)
             return
 
@@ -251,7 +251,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_invalid_account(self):
         try:
             response = self._charge_valid_mastercard(10.06)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 
@@ -260,7 +260,7 @@ class MasterCardTests(unittest.TestCase):
     def test_mastercard_response_system_error(self):
         try:
             response = self._charge_valid_mastercard(10.21)
-        except HpsCreditException as e:
+        except HpsCreditException, e:
             self.assertEqual(HpsExceptionCodes.processing_error, e.code)
             return
 

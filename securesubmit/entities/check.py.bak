@@ -57,7 +57,7 @@ class HpsCheckResponse(HpsTransaction):
 
     @classmethod
     def from_dict(cls, rsp):
-        response = next(iter(rsp['Transaction'].values()))
+        response = rsp['Transaction'].itervalues().next()
 
         sale = super(HpsCheckResponse, cls).from_dict(rsp)
         if 'RspCode' in response:

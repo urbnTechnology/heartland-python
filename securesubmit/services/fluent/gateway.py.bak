@@ -165,7 +165,7 @@ class HpsFluentCreditService(HpsSoapGatewayService):
                     try:
                         # self.reverse(int(transaction_id), *args)
                         self.reverse().with_transaction_id(int(transaction_id), *args)
-                    except HpsGatewayException as e:
+                    except HpsGatewayException, e:
                         if e.details.gateway_response_code == '3':
                             HpsIssuerResponseValidation.check_response(
                                 transaction_id,
@@ -177,7 +177,7 @@ class HpsFluentCreditService(HpsSoapGatewayService):
                             ('Error occurred while reversing ',
                              'a charge due to HPS issuer time-out.'),
                             e)
-                    except Exception as e:
+                    except Exception, e:
                         raise HpsCreditException(
                             transaction_id,
                             HpsExceptionCodes.issuer_timeout_reversal_error,
@@ -195,7 +195,7 @@ class HpsFluentCreditService(HpsSoapGatewayService):
             try:
                 # self.reverse(response['Header']['GatewayTxnId'], *args)
                 self.reverse().with_transaction_id(response['Header']['GatewayTxnId'], *args)
-            except Exception as e:
+            except Exception, e:
                 raise HpsGatewayException(
                     HpsExceptionCodes.gateway_timeout_reversal_error,
                     'Error occurred while reversing a charge due to HPS gateway time-out.',
@@ -1324,7 +1324,7 @@ class HpsFluentDebitService(HpsSoapGatewayService):
                     try:
                         # self.reverse(int(transaction_id), *args)
                         self.reverse().with_transaction_id(int(transaction_id), *args)
-                    except HpsGatewayException as e:
+                    except HpsGatewayException, e:
                         if e.details.gateway_response_code == '3':
                             HpsIssuerResponseValidation.check_response(
                                 transaction_id,
@@ -1336,7 +1336,7 @@ class HpsFluentDebitService(HpsSoapGatewayService):
                             ('Error occurred while reversing ',
                              'a charge due to HPS issuer time-out.'),
                             e)
-                    except Exception as e:
+                    except Exception, e:
                         raise HpsCreditException(
                             transaction_id,
                             HpsExceptionCodes.issuer_timeout_reversal_error,
@@ -1354,7 +1354,7 @@ class HpsFluentDebitService(HpsSoapGatewayService):
             try:
                 # self.reverse(response['Header']['GatewayTxnId'], *args)
                 self.reverse().with_transaction_id(response['Header']['GatewayTxnId'], *args)
-            except Exception as e:
+            except Exception, e:
                 raise HpsGatewayException(
                     HpsExceptionCodes.gateway_timeout_reversal_error,
                     'Error occurred while reversing a charge due to HPS gateway time-out.',

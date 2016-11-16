@@ -200,7 +200,7 @@ class HpsIssuerResponseValidation(object):
             return None
 
         code = None
-        for k, v in _issuer_code_to_credit_exception_code.iteritems():
+        for k, v in _issuer_code_to_credit_exception_code.items():
             if k == response_code:
                 code = v
 

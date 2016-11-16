@@ -40,7 +40,7 @@ class RecurringTests(unittest.TestCase):
 
     def get_identifier(self, identifier):
         rvalue = self.identifier_base.format(self.today_date, identifier)
-        print(rvalue)
+        print rvalue
         return rvalue
 
     """ Batching """
@@ -50,9 +50,9 @@ class RecurringTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print('batch id: {0}'.format(response.id))
-            print('sequence number: {0}'.format(response.sequence_number))
-        except HpsException as e:
+            print 'batch id: {0}'.format(response.id)
+            print 'sequence number: {0}'.format(response.sequence_number)
+        except HpsException, e:
             if e.message != 'Transaction was rejected because it requires a batch to be open.':
                 self.fail(e.message)
 
@@ -420,8 +420,8 @@ class RecurringTests(unittest.TestCase):
             if response is None:
                 self.fail("Response is None")
 
-            print('batch id: {0}'.format(response.id))
-            print('sequence number: {0}'.format(response.sequence_number))
+            print 'batch id: {0}'.format(response.id)
+            print 'sequence number: {0}'.format(response.sequence_number)
             # print self.__class__.customer_person_key
             # print self.__class__.customer_company_key
             # print self.__class__.payment_method_key_visa
@@ -432,5 +432,5 @@ class RecurringTests(unittest.TestCase):
             # print self.__class__.schedule_key_mastercard
             # print self.__class__.schedule_key_check_ppd
             # print self.__class__.schedule_key_check_ccd
-        except HpsException as e:
+        except HpsException, e:
             self.fail(e.message)

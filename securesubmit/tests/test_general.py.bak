@@ -36,7 +36,7 @@ class GeneralTests(unittest.TestCase):
                 None, False, None, False, details)
             self.assertIsNotNone(response)
             self.assertEqual('00', response.response_code)
-        except HpsGatewayException as e:
+        except HpsGatewayException, e:
             self.fail('Gateway threw an error')
 
     def test_charge_ampersand_in_invoice_number(self):
@@ -51,7 +51,7 @@ class GeneralTests(unittest.TestCase):
                 None, False, None, False, details)
             self.assertIsNotNone(response)
             self.assertEqual('00', response.response_code)
-        except HpsGatewayException as e:
+        except HpsGatewayException, e:
             self.fail('Gateway threw an error')
 
     def test_charge_ampersand_in_memo(self):
@@ -66,7 +66,7 @@ class GeneralTests(unittest.TestCase):
                 None, False, None, False, details)
             self.assertIsNotNone(response)
             self.assertEqual('00', response.response_code)
-        except HpsGatewayException as e:
+        except HpsGatewayException, e:
             self.fail('Gateway threw an error')
 
     def test_charge_ampersand_in_descriptor(self):
@@ -77,7 +77,7 @@ class GeneralTests(unittest.TestCase):
                 '5', 'usd', TestCreditCard.valid_visa, descriptor='&something')
             self.assertIsNotNone(response)
             self.assertEqual('00', response.response_code)
-        except HpsGatewayException as e:
+        except HpsGatewayException, e:
             self.fail('Gateway threw an error')
 
     def test_charge_ampersand_in_address(self):
@@ -100,7 +100,7 @@ class GeneralTests(unittest.TestCase):
                 '5', 'usd', TestCreditCard.valid_visa, card_holder)
             self.assertIsNotNone(response)
             self.assertEqual('00', response.response_code)
-        except HpsGatewayException as e:
+        except HpsGatewayException, e:
             self.fail(e.message)
 
     def test_charge_invalid_amount(self):
@@ -112,9 +112,9 @@ class GeneralTests(unittest.TestCase):
                 charge_amount, "usd",
                 TestCreditCard.valid_visa,
                 TestCardHolder.valid_card_holder)
-        except HpsInvalidRequestException as e:
-            self.assertEqual(e.code, HpsExceptionCodes.invalid_amount)
-            self.assertEqual(e.param_name, 'amount')
+        except HpsInvalidRequestException, e:
+            self.assertEquals(e.code, HpsExceptionCodes.invalid_amount)
+            self.assertEquals(e.param_name, 'amount')
             return
 
         self.fail("No exception was raised")
@@ -129,9 +129,9 @@ class GeneralTests(unittest.TestCase):
                 charge_amount, currency,
                 TestCreditCard.valid_visa,
                 TestCardHolder.valid_card_holder)
-        except HpsInvalidRequestException as e:
-            self.assertEqual(e.code, HpsExceptionCodes.missing_currency)
-            self.assertEqual(e.param_name, "currency")
+        except HpsInvalidRequestException, e:
+            self.assertEquals(e.code, HpsExceptionCodes.missing_currency)
+            self.assertEquals(e.param_name, "currency")
             return
 
         self.fail("No exception was raised")
@@ -146,9 +146,9 @@ class GeneralTests(unittest.TestCase):
                 charge_amount, currency,
                 TestCreditCard.valid_visa,
                 TestCardHolder.valid_card_holder)
-        except HpsInvalidRequestException as e:
-            self.assertEqual(e.code, HpsExceptionCodes.invalid_currency)
-            self.assertEqual(e.param_name, 'currency')
+        except HpsInvalidRequestException, e:
+            self.assertEquals(e.code, HpsExceptionCodes.invalid_currency)
+            self.assertEquals(e.param_name, 'currency')
             return
 
         self.fail("No exception was thrown.")
@@ -163,7 +163,7 @@ class GeneralTests(unittest.TestCase):
                 charge_amount, currency,
                 TestCreditCard.valid_visa,
                 TestCardHolder.valid_card_holder)
-        except HpsAuthenticationException as e:
+        except HpsAuthenticationException, e:
             self.assertIn(
                 e.message,
                 ('The HPS SDK has not been properly configured. '
@@ -232,11 +232,11 @@ class GeneralTests(unittest.TestCase):
         self.charge_service._config = TestServicesConfig.valid_services_config
         auth_response = self.charge_service.authorize(
             50, 'usd', TestCreditCard.valid_amex, TestCardHolder.valid_card_holder)
-        self.assertEqual('00', auth_response.response_code)
+        self.assertEquals('00', auth_response.response_code)
 
         direct_market_data = HpsDirectMarketData('123456', 10, 8)
         response = self.charge_service.capture(auth_response.transaction_id, direct_market_data=direct_market_data)
-        self.assertEqual('00', response.response_code)
+        self.assertEquals('00', response.response_code)
 
     def test_charge_with_default_market_data(self):
         direct_market_data = HpsDirectMarketData()
@@ -254,11 +254,11 @@ class GeneralTests(unittest.TestCase):
         self.charge_service._config = TestServicesConfig.valid_services_config
         auth_response = self.charge_service.authorize(
             50, 'usd', TestCreditCard.valid_amex, TestCardHolder.valid_card_holder)
-        self.assertEqual('00', auth_response.response_code)
+        self.assertEquals('00', auth_response.response_code)
 
         direct_market_data = HpsDirectMarketData()
         response = self.charge_service.capture(auth_response.transaction_id, direct_market_data=direct_market_data)
-        self.assertEqual('00', response.response_code)
+        self.assertEquals('00', response.response_code)
 
     def test_cvv_with_leading_zero(self):
         self.charge_service._config = TestServicesConfig.valid_services_config
@@ -271,7 +271,7 @@ class GeneralTests(unittest.TestCase):
 
         response = self.charge_service.authorize(15.15, 'usd', card)
         self.assertIsNotNone(response)
-        self.assertEqual('00', response.response_code)
+        self.assertEquals('00', response.response_code)
 
     def test_update_token_expiry(self):
         config = HpsServicesConfig()

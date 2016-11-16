@@ -41,9 +41,9 @@ class ECommerceTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print('batch id: {0}'.format(response.id))
-            print('sequence number: {0}'.format(response.sequence_number))
-        except HpsException as e:
+            print 'batch id: {0}'.format(response.id)
+            print 'sequence number: {0}'.format(response.sequence_number)
+        except HpsException, e:
             if e.message != 'Transaction was rejected because it requires a batch to be open.':
                 self.fail(e.message)
 
@@ -481,7 +481,7 @@ class ECommerceTests(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
         self.assertIsNotNone(response.authorized_amount)
-        self.assertEqual('110.00', response.authorized_amount)
+        self.assertEqual(u'110.00', response.authorized_amount)
 
     def test_019_partial_approval_discover(self):
         card_holder = HpsCardHolder()
@@ -507,7 +507,7 @@ class ECommerceTests(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
         self.assertIsNotNone(response.authorized_amount)
-        self.assertEqual('65.00', response.authorized_amount)
+        self.assertEqual(u'65.00', response.authorized_amount)
 
     def test_020_partial_approval_master_card(self):
         card_holder = HpsCardHolder()
@@ -533,7 +533,7 @@ class ECommerceTests(unittest.TestCase):
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
         self.assertIsNotNone(response.authorized_amount)
-        self.assertEqual('100.00', response.authorized_amount)
+        self.assertEqual(u'100.00', response.authorized_amount)
         self.__class__.test_20_transaction_id = response.transaction_id
 
     """ LEVEL II CORPORATE PURCHASE CARD """
@@ -1138,7 +1138,7 @@ class ECommerceTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('10.00', response.balance_amount)
+        self.assertEqual(u'10.00', response.balance_amount)
 
     def test_049_balance_inquiry_gift_2(self):
         card = HpsGiftCard()
@@ -1147,7 +1147,7 @@ class ECommerceTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('10.00', response.balance_amount)
+        self.assertEqual(u'10.00', response.balance_amount)
 
     """ REPLACE / TRANSFER """
 
@@ -1267,7 +1267,7 @@ class ECommerceTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('0', response.points_balance_amount)
+        self.assertEqual(u'0', response.points_balance_amount)
 
     def test_062_balance_inquiry_rewards_2(self):
         card = HpsGiftCard()
@@ -1276,7 +1276,7 @@ class ECommerceTests(unittest.TestCase):
         response = self.gift_service.balance().with_card(card).execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('0', response.points_balance_amount)
+        self.assertEqual(u'0', response.points_balance_amount)
 
     """ ALIAS """
 
@@ -1453,9 +1453,9 @@ class ECommerceTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print('batch id: {0}'.format(response.id))
-            print('sequence number: {0}'.format(response.sequence_number))
-        except HpsException as e:
+            print 'batch id: {0}'.format(response.id)
+            print 'sequence number: {0}'.format(response.sequence_number)
+        except HpsException, e:
             self.fail(e.message)
 
 
@@ -1519,7 +1519,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('001: {0}'.format(response.transaction_id))
+        print '001: {0}'.format(response.transaction_id)
         self.__class__.test_01_transaction_id = response.transaction_id
 
     def test_002_consumer_business_checking(self):
@@ -1534,7 +1534,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('002: {0}'.format(response.transaction_id))
+        print '002: {0}'.format(response.transaction_id)
 
     def test_003_consumer_personal_savings(self):
         check = self.base_check()
@@ -1548,7 +1548,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('003: {0}'.format(response.transaction_id))
+        print '003: {0}'.format(response.transaction_id)
 
     def test_004_consumer_business_savings(self):
         check = self.base_check()
@@ -1562,7 +1562,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('004: {0}'.format(response.transaction_id))
+        print '004: {0}'.format(response.transaction_id)
 
     """ ACH Debit - Corporate """
 
@@ -1579,7 +1579,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('005: {0}'.format(response.transaction_id))
+        print '005: {0}'.format(response.transaction_id)
         self.__class__.test_05_transaction_id = response.transaction_id
 
     def test_006_corporate_business_checking(self):
@@ -1595,7 +1595,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('006: {0}'.format(response.transaction_id))
+        print '006: {0}'.format(response.transaction_id)
 
     def test_007_corporate_personal_savings(self):
         check = self.base_check()
@@ -1610,7 +1610,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('007: {0}'.format(response.transaction_id))
+        print '007: {0}'.format(response.transaction_id)
 
     def test_008_corporate_business_savings(self):
         check = self.base_check()
@@ -1625,7 +1625,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('008: {0}'.format(response.transaction_id))
+        print '008: {0}'.format(response.transaction_id)
 
     """ eGold """
 
@@ -1644,7 +1644,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('009: {0}'.format(response.transaction_id))
+        print '009: {0}'.format(response.transaction_id)
 
     def test_010_egold_business_checking(self):
         if not self.e_gold:
@@ -1661,7 +1661,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('010: {0}'.format(response.transaction_id))
+        print '010: {0}'.format(response.transaction_id)
         self.__class__.test_10_transaction_id = response.transaction_id
 
     def test_011_egold_personal_savings(self):
@@ -1679,7 +1679,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('011: {0}'.format(response.transaction_id))
+        print '011: {0}'.format(response.transaction_id)
 
     def test_012_egold_business_savings(self):
         if not self.e_gold:
@@ -1696,7 +1696,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('012: {0}'.format(response.transaction_id))
+        print '012: {0}'.format(response.transaction_id)
 
     """ eSilver """
 
@@ -1715,7 +1715,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('013: {0}'.format(response.transaction_id))
+        print '013: {0}'.format(response.transaction_id)
 
     def test_014_esilver_business_checking(self):
         if not self.e_silver:
@@ -1732,7 +1732,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('014: {0}'.format(response.transaction_id))
+        print '014: {0}'.format(response.transaction_id)
         self.__class__.test_14_transaction_id = response.transaction_id
 
     def test_015_esilver_personal_savings(self):
@@ -1750,7 +1750,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('015: {0}'.format(response.transaction_id))
+        print '015: {0}'.format(response.transaction_id)
 
     def test_016_esilver_business_savings(self):
         if not self.e_silver:
@@ -1767,7 +1767,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('016: {0}'.format(response.transaction_id))
+        print '016: {0}'.format(response.transaction_id)
 
     """ eBronze (verify only) """
 
@@ -1787,7 +1787,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('00', response.response_code)
-        print('017: {0}'.format(response.transaction_id))
+        print '017: {0}'.format(response.transaction_id)
 
     def test_018_ebronze_business_checking(self):
         if not self.e_bronze:
@@ -1805,7 +1805,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('00', response.response_code)
-        print('018: {0}'.format(response.transaction_id))
+        print '018: {0}'.format(response.transaction_id)
 
     def test_019_ebronze_personal_savings(self):
         if not self.e_bronze:
@@ -1823,7 +1823,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('00', response.response_code)
-        print('019: {0}'.format(response.transaction_id))
+        print '019: {0}'.format(response.transaction_id)
 
     def test_020_ebronze_business_savings(self):
         if not self.e_bronze:
@@ -1841,7 +1841,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('00', response.response_code)
-        print('020: {0}'.format(response.transaction_id))
+        print '020: {0}'.format(response.transaction_id)
 
     """ Checks-by-Web """
 
@@ -1857,7 +1857,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('021: {0}'.format(response.transaction_id))
+        print '021: {0}'.format(response.transaction_id)
 
     def test_022_web_business_checking(self):
         check = self.base_check()
@@ -1871,7 +1871,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('022: {0}'.format(response.transaction_id))
+        print '022: {0}'.format(response.transaction_id)
 
     def test_023_web_personal_savings(self):
         check = self.base_check()
@@ -1885,7 +1885,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('023: {0}'.format(response.transaction_id))
+        print '023: {0}'.format(response.transaction_id)
         self.__class__.test_23_transaction_id = response.transaction_id
 
     def test_024_web_business_savings(self):
@@ -1900,7 +1900,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        print('024: {0}'.format(response.transaction_id))
+        print '024: {0}'.format(response.transaction_id)
 
     """ CHECK VOID """
 
@@ -1910,7 +1910,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(void_response)
         self.assertEqual('0', void_response.response_code)
-        print('025: {0}'.format(void_response.transaction_id))
+        print '025: {0}'.format(void_response.transaction_id)
 
     def test_026_ccd_check_void(self):
 
@@ -1919,7 +1919,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(void_response)
         self.assertEqual('0', void_response.response_code)
-        print('026: {0}'.format(void_response.transaction_id))
+        print '026: {0}'.format(void_response.transaction_id)
 
     def test_027_pop_check_void(self):
         void_response = self.service.void()\
@@ -1927,7 +1927,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(void_response)
         self.assertEqual('0', void_response.response_code)
-        print('027: {0}'.format(void_response.transaction_id))
+        print '027: {0}'.format(void_response.transaction_id)
 
     def test_028_pop_check_void(self):
         void_response = self.service.void()\
@@ -1935,7 +1935,7 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(void_response)
         self.assertEqual('0', void_response.response_code)
-        print('028: {0}'.format(void_response.transaction_id))
+        print '028: {0}'.format(void_response.transaction_id)
 
     def test_029_web_check_void(self):
         void_response = self.service.void()\
@@ -1943,4 +1943,4 @@ class ECommerceCheckTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(void_response)
         self.assertEqual('0', void_response.response_code)
-        print('029: {0}'.format(void_response.transaction_id))
+        print '029: {0}'.format(void_response.transaction_id)

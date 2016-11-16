@@ -30,7 +30,7 @@ class HpsAuthorization(HpsTransaction):
 
     @classmethod
     def from_dict(cls, rsp):
-        auth_response = next(iter(rsp['Transaction'].values()))
+        auth_response = rsp['Transaction'].itervalues().next()
 
         auth = super(HpsAuthorization, cls).from_dict(rsp)
         if 'AuthCode' in auth_response:
@@ -113,7 +113,7 @@ class HpsCreditCard(object):
 
         card_type = "Unknown"
 
-        for card, rx in list(card_regexes.items()):
+        for card, rx in card_regexes.items():
             if re.match(rx, self.number) is not None:
                 card_type = card
         return card_type
@@ -158,7 +158,7 @@ class HpsReportTransactionDetails(HpsAuthorization):
 
     @classmethod
     def from_dict(cls, rsp):
-        report_response = next(iter(rsp['Transaction'].values()))
+        report_response = rsp['Transaction'].itervalues().next()
 
         details = super(HpsReportTransactionDetails, cls).from_dict(rsp)
         if 'OriginalGatewayTxnId' in report_response:
@@ -257,7 +257,7 @@ class HpsReportTransactionSummary(HpsTransaction):
 
     @classmethod
     def from_dict(cls, rsp, filter_by):
-        report_response = next(iter(rsp['Transaction'].values()))
+        report_response = rsp['Transaction'].itervalues().next()
 
         transactions = []
         service_name = ''
@@ -340,7 +340,7 @@ class HpsReversal(HpsTransaction):
 
     @classmethod
     def from_dict(cls, rsp):
-        reverse_response = next(iter(rsp['Transaction'].values()))
+        reverse_response = rsp['Transaction'].itervalues().next()
 
         reverse = super(HpsReversal, cls).from_dict(rsp)
         reverse.avs_result_code = None

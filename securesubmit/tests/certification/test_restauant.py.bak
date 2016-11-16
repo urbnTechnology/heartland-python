@@ -34,9 +34,9 @@ class RestauantTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print('batch id: {0}'.format(response.id))
-            print('sequence number: {0}'.format(response.sequence_number))
-        except HpsException as e:
+            print 'batch id: {0}'.format(response.id)
+            print 'sequence number: {0}'.format(response.sequence_number)
+        except HpsException, e:
             if e.message != 'Transaction was rejected because it requires a batch to be open.':
                 self.fail(e.message)
 
@@ -755,7 +755,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual('40.00', response.authorized_amount)
+        self.assertEqual(u'40.00', response.authorized_amount)
 
     def test_040_charge_visa_swipe_partial_approval(self):
         track_data = HpsTrackData()
@@ -768,7 +768,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual('110.00', response.authorized_amount)
+        self.assertEqual(u'110.00', response.authorized_amount)
 
     def test_041_charge_mastercard_manual_partial_approval(self):
         card_holder = HpsCardHolder()
@@ -788,7 +788,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual('65.00', response.authorized_amount)
+        self.assertEqual(u'65.00', response.authorized_amount)
 
     def test_042_charge_discover_swipe_partial_approval(self):
         track_data = HpsTrackData()
@@ -801,7 +801,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual('100.00', response.authorized_amount)
+        self.assertEqual(u'100.00', response.authorized_amount)
 
         reversal_response = self.service.reverse(100.00).with_transaction_id(response.transaction_id).execute()
         self.assertIsNotNone(reversal_response)
@@ -1256,7 +1256,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual('22.00', response.authorized_amount)
+        self.assertEqual(u'22.00', response.authorized_amount)
 
     def test_069_debit_sale_visa_partial_approval(self):
         track_data = HpsTrackData()
@@ -1272,7 +1272,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('10', response.response_code)
-        self.assertEqual('33.00', response.authorized_amount)
+        self.assertEqual(u'33.00', response.authorized_amount)
 
         reversal_response = self.debit_service.reverse(33.00).with_transaction_id(response.transaction_id).execute()
         self.assertIsNotNone(reversal_response)
@@ -1695,7 +1695,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('10.00', response.balance_amount)
+        self.assertEqual(u'10.00', response.balance_amount)
 
     def test_100_balance_inquiry_gift_2_manual(self):
         card = HpsGiftCard()
@@ -1707,7 +1707,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('10.00', response.balance_amount)
+        self.assertEqual(u'10.00', response.balance_amount)
 
     """ REPLACE / TRANSFER """
 
@@ -1833,7 +1833,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('0', response.points_balance_amount)
+        self.assertEqual(u'0', response.points_balance_amount)
 
     def test_112_balance_inquiry_rewards_2(self):
         card = HpsGiftCard()
@@ -1845,7 +1845,7 @@ class RestauantTests(unittest.TestCase):
             .execute()
         self.assertIsNotNone(response)
         self.assertEqual('0', response.response_code)
-        self.assertEqual('0', response.points_balance_amount)
+        self.assertEqual(u'0', response.points_balance_amount)
 
     """ ALIAS """
 
@@ -2026,7 +2026,7 @@ class RestauantTests(unittest.TestCase):
             response = self.batch_service.close_batch()
             if response is None:
                 self.fail("Response is None")
-            print('batch id: {0}'.format(response.id))
-            print('sequence number: {0}'.format(response.sequence_number))
-        except HpsException as e:
+            print 'batch id: {0}'.format(response.id)
+            print 'sequence number: {0}'.format(response.sequence_number)
+        except HpsException, e:
             self.fail(e.message)

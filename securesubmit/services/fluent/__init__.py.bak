@@ -49,7 +49,7 @@ class HpsBuilderAbstract(object):
             # result = validation['callback'](actions)
             result = validation['callback']()
             if result is False:
-                print(validation['exception_message'])
+                print validation['exception_message']
                 raise validation['exception_type'](validation['exception_message'])
 
     def compile_action_counts(self):
