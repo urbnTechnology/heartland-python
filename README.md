@@ -4,6 +4,8 @@
 
 # Heartland Python SDK
 
+Rewritten by URBN Technology for Python 3,
+
 This SDK makes it easy to integrate your Python application with Heartland's [**Portico Gateway API**](http://developer.heartlandpaymentsystems.com/Portico). Supported features include:
 
 * Card Not Present (eCommerce and mobile)
@@ -25,7 +27,7 @@ You are not alone! If you have any questions while you are working through your 
 
 
 ## Requirements
- 1. Python 2.7.9  (Python 3 is not yet supported)
+ 1. Python 3, if using python 2 use this sdk https://github.com/hps/heartland-python
 
 
 ## Installation
